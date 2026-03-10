@@ -24,10 +24,10 @@ def test_database_connection():
     
     try:
         if db.test_connection():
-            print("✓ Database connection successful!")
+            print("[OK] Database connection successful!")
             return True
         else:
-            print("✗ Database connection failed!")
+            print("[ERROR] Database connection failed!")
             messagebox.showerror(
                 "Database Error",
                 "Cannot connect to database.\n\n"
@@ -39,7 +39,7 @@ def test_database_connection():
             )
             return False
     except Exception as e:
-        print(f"✗ Database connection error: {e}")
+        print(f"[ERROR] Database connection error: {e}")
         messagebox.showerror(
             "Database Error",
             f"Database connection error:\n{str(e)}\n\n"
@@ -85,7 +85,7 @@ def main():
         sys.exit(0)
     
     except Exception as e:
-        print(f"\n✗ Fatal error: {e}")
+        print(f"\n[FATAL ERROR] Fatal error: {e}")
         print("\nTraceback:")
         traceback.print_exc()
         
@@ -98,4 +98,5 @@ def main():
 
 
 if __name__ == "__main__":
+    main()
     main()

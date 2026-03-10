@@ -164,7 +164,7 @@ class UserManager:
                 query, 
                 (username, password_hash, full_name, role, email, phone)
             )
-            print(f"✓ User '{username}' created successfully with ID: {user_id}")
+            print(f"[OK] User '{username}' created successfully with ID: {user_id}")
             return user_id
         except Exception as e:
             print(f"Error creating user: {e}")
@@ -229,7 +229,7 @@ class UserManager:
         
         try:
             db.execute_query(query, tuple(params))
-            print(f"✓ User {user_id} updated successfully")
+            print(f"[OK] User {user_id} updated successfully")
             return True
         except Exception as e:
             print(f"Error updating user: {e}")
@@ -274,7 +274,7 @@ class UserManager:
         
         try:
             db.execute_query(update_query, (new_hash, user_id))
-            print(f"✓ Password changed successfully for user {user_id}")
+            print(f"[OK] Password changed successfully for user {user_id}")
             return True
         except Exception as e:
             print(f"Error changing password: {e}")
@@ -304,7 +304,7 @@ class UserManager:
         
         try:
             db.execute_query(query, (new_hash, user_id))
-            print(f"✓ Password reset successfully for user {user_id}")
+            print(f"[OK] Password reset successfully for user {user_id}")
             return True
         except Exception as e:
             print(f"Error resetting password: {e}")
@@ -325,7 +325,7 @@ class UserManager:
         
         try:
             db.execute_query(query, (user_id,))
-            print(f"✓ User {user_id} deactivated")
+            print(f"[OK] User {user_id} deactivated")
             return True
         except Exception as e:
             print(f"Error deactivating user: {e}")
@@ -346,7 +346,7 @@ class UserManager:
         
         try:
             db.execute_query(query, (user_id,))
-            print(f"✓ User {user_id} activated")
+            print(f"[OK] User {user_id} activated")
             return True
         except Exception as e:
             print(f"Error activating user: {e}")
@@ -372,7 +372,7 @@ class UserManager:
         
         try:
             db.execute_query(query, (user_id,))
-            print(f"✓ User {user_id} permanently deleted")
+            print(f"[OK] User {user_id} permanently deleted")
             return True
         except Exception as e:
             print(f"Error deleting user: {e}")
@@ -398,6 +398,55 @@ class UserManager:
             query += " WHERE is_active = TRUE"
         
         query += " ORDER BY full_name"
+        
+        try:
+            results = db.execute_query(query, fetch=True)
+            return [User(
+                user_id=row[0],
+                username=row[1],
+                full_name=row[2],
+                role=row[3],
+                email=row[4],
+                phone=row[5],
+                is_active=row[6]
+            ) for row in results]
+        except Exception as e:
+            print(f"Error fetching users: {e}")
+            return []
+    
+    @staticmethod
+    def get_user_by_id(user_id: int) -> Optional[User]:
+        """
+        Get user by ID
+        
+        Args:
+            user_id: User ID
+            
+        Returns:
+            User object or None
+        """
+        query = """
+            SELECT user_id, username, full_name, role, email, phone, is_active
+            FROM users
+            WHERE user_id = %s
+        """
+        
+        try:
+            result = db.fetch_one(query, (user_id,))
+            if result:
+                return User(
+                    user_id=result[0],
+                    username=result[1],
+                    full_name=result[2],
+                    role=result[3],
+                    email=result[4],
+                    phone=result[5],
+                    is_active=result[6]
+                )
+            return None
+        except Exception as e:
+            print(f"Error fetching user: {e}")
+            return None
         
         try:
             results = db.execute_query(query, fetch=True)
@@ -621,9 +670,9 @@ if __name__ == "__main__":
     # Test authentication
     user = UserManager.authenticate("admin", "admin123")
     if user:
-        print(f"✓ Authentication successful: {user}")
+        print(f"[SUCCESS] Authentication successful: {user}")
     else:
-        print("✗ Authentication failed")
+        print("[FAILED] Authentication failed")
     
     # Test getting all users
     users = UserManager.get_all_users()

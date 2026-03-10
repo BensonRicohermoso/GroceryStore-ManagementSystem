@@ -115,7 +115,7 @@ class LoginWindow:
         self.password_entry = ttk.Entry(
             form_inner,
             font=AppStyles.FONT_MEDIUM,
-            show="●",
+            show="*",
             width=30
         )
         self.password_entry.pack(fill=tk.X, pady=(0, 10))
@@ -162,7 +162,7 @@ class LoginWindow:
         if self.show_password_var.get():
             self.password_entry.config(show="")
         else:
-            self.password_entry.config(show="●")
+            self.password_entry.config(show="*")
     
     def handle_login(self):
         """Handle login button click"""

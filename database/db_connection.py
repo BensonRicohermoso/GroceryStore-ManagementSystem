@@ -31,9 +31,9 @@ class DatabaseConnection:
                 charset=config.DB_CONFIG['charset'],
                 autocommit=config.DB_CONFIG['autocommit']
             )
-            print("✓ Database connection pool initialized successfully")
+            print("[OK] Database connection pool initialized successfully")
         except Error as e:
-            print(f"✗ Error initializing connection pool: {e}")
+            print(f"[ERROR] Error initializing connection pool: {e}")
             raise
     
     def get_connection(self):

@@ -400,21 +400,18 @@ class Validator:
             max_length: Maximum allowed length
             
         Returns:
-            Sanitized text
+            Sanitized text string
         """
         if not text:
             return ""
         
-        # Remove leading/trailing whitespace
-        text = text.strip()
+        # Convert to string and strip
+        text = str(text).strip()
         
-        # Remove control characters except newline and tab
-        text = ''.join(char for char in text if ord(char) >= 32 or char in '\n\t')
+        # Remove null bytes and other control characters
+        text = ''.join(char for char in text if ord(char) >= 32 or char == '\n' or char == '\t')
         
-        # Remove excessive whitespace
-        text = re.sub(r'\s+', ' ', text)
-        
-        # Truncate if needed
+        # Truncate if max_length specified
         if max_length and len(text) > max_length:
             text = text[:max_length]
         
@@ -491,5 +488,5 @@ if __name__ == "__main__":
     for test_name, result in tests:
         is_valid = result[0]
         message = result[1]
-        status = "✓" if is_valid else "✗"
+        status = "PASS" if is_valid else "FAIL"
         print(f"{status} {test_name}: {message if message else 'Valid'}")

@@ -9,7 +9,7 @@ DB_CONFIG = {
     'host': 'localhost',
     'port': 3306,
     'user': 'root',
-    'password': '',  # Change this to your MySQL password
+    'password': 'Benson7202006.',  # Change this to your MySQL password
     'database': 'grocery_store_db',
     'charset': 'utf8mb4',
     'autocommit': False,
@@ -98,4 +98,5 @@ def initialize_directories():
         directory.mkdir(parents=True, exist_ok=True)
 
 # Initialize on import
+initialize_directories()
 initialize_directories()
