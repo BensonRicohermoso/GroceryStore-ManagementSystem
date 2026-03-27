@@ -1,5 +1,6 @@
 Grocery Store Management System
 A comprehensive Python-based grocery store management system with inventory tracking, point of sale (POS), sales reporting, and user management.
+
 🎯 Features
 Core Functionality
 
